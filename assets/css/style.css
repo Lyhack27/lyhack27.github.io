@@ -1,0 +1,84 @@
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(-45deg, #141e30, #243b55, #1f2833, #0b0c10);
+  background-size: 400% 400%;
+  animation: animatedBg 60s ease-in-out infinite;
+  color: #E1E8ED;
+}
+@keyframes animatedBg {
+  0% {background-position: 0% 50%}
+  50% {background-position: 100% 50%}
+  100% {background-position: 0% 50%}
+}
+.banner {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.profile {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #1DA1F2;
+  position: relative;
+  top: -60px;
+  background: #000;
+}
+header {
+  text-align: center;
+  margin-bottom: -40px;
+}
+.box {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 700px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+label, select, input, button {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+input, select {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  color: #000;
+}
+button {
+  background-color: #1DA1F2;
+  border: none;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #1991DA;
+}
+pre {
+  background: #0f1c2e;
+  color: #00FF87;
+  padding: 1rem;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.machines {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+.machine-card {
+  background: #1b2838;
+  border-left: 4px solid #1DA1F2;
+  padding: 1rem;
+  border-radius: 6px;
+}

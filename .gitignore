@@ -1,0 +1,26 @@
+# Sistema Windows
+Thumbs.db
+.DS_Store
+*.log
+
+# Archivos temporales
+*.tmp
+*.bak
+
+# Archivos de compilación
+*.exe
+*.dll
+*.obj
+*.pdb
+
+# Archivos de desarrollo
+.vscode/
+*.user
+*.userprefs
+
+# Archivos de caché
+node_modules/
+vendor/
+.env
+*.swp
+*.swo
