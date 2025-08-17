@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MalGen - Payload Generator</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <title>Leonardo Rincón - Cyber Security Analyst</title>
   <style>
     body {
       transition: background-color 1s ease;
       background-color: #0d0d0d;
-      background-image: 
+      background-image:
         linear-gradient(135deg, #0d0d0d 25%, transparent 25%),
         linear-gradient(225deg, #1a1a1a 25%, transparent 25%),
         linear-gradient(45deg, #1a1a1a 25%, transparent 25%),
@@ -17,14 +16,21 @@
       background-position: 10px 0, 10px 0, 0 0, 0 0;
       background-size: 20px 20px;
       background-repeat: repeat;
+      color: #00ff00;
+      font-family: monospace;
+      margin: 0;
+    }
+    .banner {
+      width: 100%;
+      height: auto;
+      display: block;
     }
     header {
       text-align: center;
       margin: 1rem 0;
       padding: 1rem;
-      font-family: monospace;
     }
-    header img {
+    header img.profile {
       width: 120px;
       height: 120px;
       border-radius: 50%;
@@ -33,17 +39,22 @@
       display: block;
     }
     header h1 {
-      font-size: 0.7rem;
-      color: #00ff00;
+      font-size: 2.3rem;
+      margin-bottom: 0.3rem;
+      background: linear-gradient(90deg, #0ff, #0f0, #ff0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: waveBackground 90s linear infinite;
       text-shadow: 0 0 2px #00ff00;
-      margin: 0.3rem 0;
-      font-family: monospace;
     }
     header p {
-      color: #00ff00;
-      margin: 0.3rem 0;
-      font-family: monospace;
-      font-size: 0.6rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 0;
+      background: linear-gradient(90deg, #0ff, #0f0, #ff0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: waveBackground 90s linear infinite;
     }
     .box {
       background: rgba(26, 26, 26, 0.8);
@@ -55,19 +66,17 @@
       max-width: 800px;
       width: 90%;
       box-sizing: border-box;
-      display: block;
     }
     .box h2 {
       color: #00ff00;
       margin-top: 0;
       text-shadow: 0 0 3px #00ff00;
-      font-family: monospace;
       font-size: 1.1rem;
     }
     input, select {
       width: 100%;
-      padding: 0.5rem;
-      margin: 0.3rem 0;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
       background: #1a1a1a;
       border: 2px solid #00ff00;
       color: #00ff00;
@@ -87,6 +96,12 @@
       font-family: monospace;
       border-radius: 4px;
     }
+    button:hover {
+      background-color: #00ff00;
+      color: #1a1a1a;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+    }
     .machine-dropdown {
       width: 100%;
       padding: 0.8rem;
@@ -100,7 +115,6 @@
     .machine-dropdown option {
       background: #0d0d0d;
       color: #00ff00;
-      font-family: monospace;
     }
     .machine-details {
       display: none;
@@ -109,29 +123,21 @@
       border: 2px solid #00ff00;
       margin-top: 0.5rem;
       border-radius: 4px;
-      font-family: monospace;
     }
     .machine-details.visible {
       display: block;
     }
-    .machine-details h3 {
-      color: #00ff00;
-      margin-top: 0;
-      font-family: monospace;
-    }
-    .machine-details p {
+    .machine-details h3, .machine-details p, .machine-details a, .machine-details ol, .machine-details li {
       color: #00ff00;
       font-family: monospace;
     }
     .machine-details a {
-      color: #00ff00;
       text-decoration: none;
-      font-family: monospace;
+      font-weight: bold;
     }
     .practice-tool {
       text-align: center;
       padding: 2rem;
-      font-family: monospace;
     }
     .practice-image {
       max-width: 100%;
@@ -139,45 +145,14 @@
       margin-bottom: 1rem;
       border-radius: 8px;
     }
-    input, select {
-      width: 100%;
-      padding: 0.8rem;
-      margin: 0.5rem 0;
-      background: #1a1a1a;
-      border: 2px solid #00ff00;
-      color: #00ff00;
-      font-family: monospace;
-      border-radius: 4px;
-    }
-    button {
-      background-color: #1a1a1a;
-      border: 2px solid #00ff00;
-      color: #00ff00;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: monospace;
-      border-radius: 4px;
-    }
-    button:hover {
-      background-color: #00ff00;
-      color: #1a1a1a;
-      transform: scale(1.05);
-      box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
-    }
     pre {
       background: #1a1a1a;
       border: 2px solid #00ff00;
       padding: 1rem;
       margin: 1rem 0;
-      font-family: monospace;
       border-radius: 4px;
-    }
-    @keyframes waveBackground {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
     #mainContent {
       opacity: 0;
@@ -193,7 +168,6 @@
       margin: 2rem auto;
       color: #00ff00;
       background: black;
-      font-family: monospace;
       padding: 1rem;
     }
     .cursor {
@@ -204,197 +178,89 @@
       margin-left: 2px;
       animation: blink 2s step-start infinite;
     }
+    .website-preview iframe {
+        border: 2px solid #00ff00;
+        border-radius: 8px;
+        width: 100%;
+        height: 500px;
+    }
     @keyframes blink {
       50% { background: transparent; }
     }
-    header {
-      text-align: center;
-      margin-top: 2rem;
-      margin-bottom: 1.5rem;
-    }
-    header h1 {
-      font-size: 2.3rem;
-      margin-bottom: 0.3rem;
-      background: linear-gradient(90deg, #0ff, #0f0, #ff0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: waveBackground 90s linear infinite;
-    }
-    header p {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin-top: 0;
-      background: linear-gradient(90deg, #0ff, #0f0, #ff0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: waveBackground 90s linear infinite;
-    }
-    button {
-      background-color: #111;
-      border: 2px solid #0ff;
-      color: #0ff;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    button:hover {
-      background-color: #0ff;
-      color: #111;
-      transform: scale(1.05);
-      box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+    @keyframes waveBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
   </style>
   <script>
-    document.documentElement.classList.add('loading');
-
-    function showMachineDetails(machineId) {
-      // Ocultar todos los detalles
-      document.querySelectorAll('.machine-details').forEach(detail => {
-        detail.classList.remove('visible');
-      });
-      
-      // Mostrar el detalle seleccionado
-      if (machineId) {
-        document.getElementById(`${machineId}-details`).classList.add('visible');
-      }
-    }
-  </script>
-</head>
-<body>
-  <div id="terminal"><span class="cursor"></span></div>
-    <div id="mainContent">
-    <img class="banner" src="assets/img/portada.jpg" alt="Portada">
-    <header>
-      <img class="profile" src="assets/img/perfil_new.jpg" alt="Perfil" />
-      <h1>Leonardo Rincón</h1>
-      <p>Cyber Security Analyst</p>
-    </header>
-    <div class="box">
-      <h2>Máquinas Resueltas</h2>
-      <div class="machines">
-        <select class="machine-dropdown" onchange="showMachineDetails(this.value)">
-          <option value="">Selecciona una máquina...</option>
-          <option value="driver">HTB - Driver</option>
-          <option value="validation">HTB - Validation</option>
-          <option value="infiltrator">INFILTRATOR.HTB</option>
-          <option value="multimaster">Multimaster</option>
-        </select>
-        <div id="driver-details" class="machine-details">
-          <h3>HTB - Driver</h3>
-          <p>Uso de PrintNightmare para RCE y secuestro de spooler.</p>
-          <p><a href="https://github.com/Lyhack27/maquinas" target="_blank">Ver detalles completos</a></p>
-        </div>
-        <div id="validation-details" class="machine-details">
-          <h3>HTB - Validation</h3>
-          <p>SQLi inicial, luego enumeración LDAP y acceso.</p>
-          <p><a href="https://github.com/Lyhack27/maquinas" target="_blank">Ver detalles completos</a></p>
-        </div>
-        <div id="infiltrator-details" class="machine-details">
-          <h3>INFILTRATOR.HTB</h3>
-          <p>Abuso de delegación Kerberos y SPN scan.</p>
-          <p><a href="https://github.com/Lyhack27/maquinas" target="_blank">Ver detalles completos</a></p>
-        </div>
-        <div id="multimaster-details" class="machine-details">
-          <h3>Multimaster</h3>
-          <p>Enumeración SMB, password reuse, acceso LDAP y pwn.</p>
-          <p><a href="https://github.com/Lyhack27/maquinas" target="_blank">Ver detalles completos</a></p>
-        </div>
-      </div>
-    </div>
-    <div class="box">
-      <h2>Tools</h2>
-      <div class="tools">
-        <div class="tool-card">
-          <div class="tool-section">
-            <h4>Payload de Login</h4>
-            <label for="usuario">Usuario</label>
-            <input type="text" id="usuario" placeholder="admin" />
-            <label for="contrasena">Contraseña común</label>
-            <select id="contrasena">
-              <option value="admin">admin (por defecto)</option>
-              <option value="123456">123456 (muy común)</option>
-              <option value="password">password (genérica)</option>
-              <option value="1234">1234 (por defecto)</option>
-              <option value="root">root (privilegiado)</option>
-              <option value="admin' --">admin' -- (bypass)</option>
-              <option value="' OR ''='">' OR ''=' (vacío válido)</option>
-              <option value=\" or 1=1 --\">" or 1=1 -- (condición verdadera)</option>
-            </select>
-            <button onclick="generarLoginPayload()">Generar Payload</button>
-            <pre id="loginResultado"></pre>
-          </div>
-          <div class="tool-section">
-            <h4>Payload para URL</h4>
-            <label for="url">URL objetivo</label>
-            <input type="text" id="url" placeholder="http://example.com/vulnerable.php?id=" />
-            <label for="tipo">Tipo de Payload</label>
-            <select id="tipo">
-              <option value="' OR '1'='1">Bypass SQL</option>
-              <option value="' UNION SELECT null--">UNION SELECT</option>
-              <option value="' AND 1=1 --">Booleano verdadero</option>
-              <option value="' AND 1=2 --">Booleano falso</option>
-              <option value="' AND SLEEP(5) --">Time-based</option>
-            </select>
-            <button onclick="generarURLPayload()">Generar URL</button>
-            <pre id="urlResultado"></pre>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="box">
-      <h2>Herramienta de Práctica para Examenes</h2>
-      <div class="practice-tool">
-        <img src="assets/img/MAQUINAS.png" alt="Herramienta de Práctica" class="practice-image">
-        <p>Practica y prepara para tus exámenes de seguridad con esta herramienta interactiva.</p>
-        <p><a href="https://github.com/Lyhack27/maquinas" target="_blank">Ver detalles completos en GitHub</a></p>
-      </div>
-    </div>
-  </div>
-  <script>
-    const terminal = document.getElementById("terminal");
-    const cursor = terminal.querySelector(".cursor");
-    const mainContent = document.getElementById("mainContent");
-
-    const lines = [
-      "System booting...",
-      "Authenticating identity...",
-      "User recognized: Leonardo Rincón",
-      "Role: Cyber Security Analyst",
-      "Initializing environment..."
-    ];
-
-    let lineIndex = 0;
-    let charIndex = 0;
-
-    function typeLine() {
-      if (lineIndex < lines.length) {
-        if (charIndex < lines[lineIndex].length) {
-          cursor.insertAdjacentText("beforebegin", lines[lineIndex][charIndex]);
-          charIndex++;
-          setTimeout(typeLine, 10);
-        } else {
-          cursor.insertAdjacentHTML("beforebegin", "\n");
-          lineIndex++;
-          charIndex = 0;
-          setTimeout(typeLine, 50);
+    document.addEventListener('DOMContentLoaded', () => {
+      // Función para mostrar/ocultar detalles de la máquina
+      function showMachineDetails(machineId) {
+        document.querySelectorAll('.machine-details').forEach(detail => {
+          detail.classList.remove('visible');
+        });
+        if (machineId) {
+          const element = document.getElementById(`${machineId}-details`);
+          if (element) {
+            element.classList.add('visible');
+          }
         }
-      } else {
-        setTimeout(() => {
-          terminal.style.display = "none";
-          mainContent.classList.add("visible");
-          document.body.style.backgroundColor = "#fff";
-          document.documentElement.classList.remove("loading");
-        }, 300);
       }
-    }
 
-    typeLine();
+      // Event listener para el dropdown
+      const machineDropdown = document.querySelector('.machine-dropdown');
+      if (machineDropdown) {
+        machineDropdown.addEventListener('change', (event) => {
+          showMachineDetails(event.target.value);
+        });
+      }
 
+      // Lógica de la terminal de arranque
+      const terminal = document.getElementById("terminal");
+      const cursor = terminal.querySelector(".cursor");
+      const mainContent = document.getElementById("mainContent");
+
+      const lines = [
+        "System booting...",
+        "Authenticating identity...",
+        "User recognized: Leonardo Rincón",
+        "Role: Cyber Security Analyst",
+        "Initializing environment..."
+      ];
+
+      let lineIndex = 0;
+      let charIndex = 0;
+
+      function typeLine() {
+        if (lineIndex < lines.length) {
+          if (charIndex < lines[lineIndex].length) {
+            cursor.insertAdjacentText("beforebegin", lines[lineIndex][charIndex]);
+            charIndex++;
+            setTimeout(typeLine, 10);
+          } else {
+            cursor.insertAdjacentHTML("beforebegin", "\n");
+            lineIndex++;
+            charIndex = 0;
+            setTimeout(typeLine, 50);
+          }
+        } else {
+          setTimeout(() => {
+            terminal.style.display = "none";
+            mainContent.classList.add("visible");
+            document.body.style.backgroundColor = "#0d0d0d"; // Mantener fondo oscuro
+          }, 300);
+        }
+      }
+
+      typeLine();
+    });
+
+    // Funciones para generar payloads
     function generarLoginPayload() {
       const user = document.getElementById("usuario").value;
       const pass = document.getElementById("contrasena").value;
-      const payload = `Usuario: '${user}' OR '1'='1 | Contraseña: '${pass}' OR '1'='1`;
+      const payload = `Usuario: ${user}\nContraseña: ${pass}`;
       document.getElementById("loginResultado").textContent = payload;
     }
 
@@ -404,7 +270,149 @@
       document.getElementById("urlResultado").textContent = url + tipo;
     }
   </script>
+</head>
+<body>
+  <div id="terminal"><span class="cursor"></span></div>
+    <div id="mainContent">
+    <!-- Imagen de portada restaurada -->
+    <img class="banner" src="assets/img/portada.jpg" alt="Portada">
+    
+    <header>
+      <img class="profile" src="assets/img/perfil_new.jpg" alt="Perfil" />
+      <h1>Leonardo Rincón</h1>
+      <p>Cyber Security Analyst</p>
+    </header>
+
+    <div class="box">
+      <h2>Máquinas Resueltas</h2>
+      <div class="machines">
+        <select class="machine-dropdown">
+          <option value="">Selecciona una máquina...</option>
+          <option value="driver">HTB - Driver</option>
+          <option value="validation">HTB - Validation</option>
+          <option value="goodgames">HTB - GoodGames</option>
+          <option value="paper">HTB - Paper</option>
+          <option value="netmon">HTB - Netmon</option>
+        </select>
+        
+        <div id="driver-details" class="machine-details">
+          <h3>HTB - Driver</h3>
+          <p>Uso de PrintNightmare para RCE y secuestro de spooler.</p>
+          <p><a href="https://github.com/Lyhack27/maquinas" target="_blank">Ver detalles completos</a></p>
+        </div>
+        
+        <div id="validation-details" class="machine-details">
+          <h3>HTB - Validation</h3>
+          <p>SQLi inicial, luego enumeración LDAP y acceso.</p>
+          <p><a href="https://github.com/Lyhack27/maquinas" target="_blank">Ver detalles completos</a></p>
+        </div>
+
+        <div id="goodgames-details" class="machine-details">
+            <h3>HTB - GoodGames</h3>
+            <p>Máquina basada en una aplicación web vulnerable y escalada de privilegios a través de un backend mal configurado.</p>
+            <ol>
+                <li><strong>Reconocimiento:</strong> Escaneo de puertos revela un servidor web (80) y un puerto para una base de datos.</li>
+                <li><strong>Inyección SQL:</strong> La página de login del portal "GoodGames" es vulnerable a inyección SQL, permitiendo bypass de autenticación.</li>
+                <li><strong>Acceso Inicial:</strong> Tras el bypass, se descubre un panel de administración con una funcionalidad de subida de archivos. Se sube una reverse shell en PHP.</li>
+                <li><strong>Escalada de Privilegios:</strong> En la máquina, se encuentra un script en el backend que se ejecuta como root. Se aprovecha una vulnerabilidad de Command Injection en ese script para obtener una shell como root.</li>
+            </ol>
+        </div>
+
+        <div id="paper-details" class="machine-details">
+            <h3>HTB - Paper</h3>
+            <p>Explotación de una vulnerabilidad en un CMS conocido y escalada a través de credenciales filtradas.</p>
+            <ol>
+                <li><strong>Enumeración Web:</strong> Se identifica que el sitio corre una versión obsoleta de WordPress.</li>
+                <li><strong>Explotación del CMS:</strong> Usando `wpscan`, se encuentra un plugin vulnerable a Local File Inclusion (LFI). Se utiliza el LFI para leer el archivo `wp-config.php` y obtener las credenciales de la base de datos.</li>
+                <li><strong>Movimiento Lateral:</strong> La contraseña de la base de datos se reutiliza para el usuario 'wordpress' del sistema a través de SSH, obteniendo acceso.</li>
+                <li><strong>Escalada de Privilegios:</strong> El usuario tiene permisos `sudo` para ejecutar un script de backup sin contraseña. Se modifica el script para ejecutar `/bin/bash` y se obtiene acceso como root.</li>
+            </ol>
+        </div>
+
+        <div id="netmon-details" class="machine-details">
+            <h3>HTB - Netmon</h3>
+            <p>Vulnerabilidad en un software de monitoreo de red y explotación de un kernel obsoleto.</p>
+            <ol>
+                <li><strong>Descubrimiento:</strong> Un escaneo de puertos revela una interfaz web de un software de monitoreo de red (Netmon) en un puerto no estándar.</li>
+                <li><strong>RCE en Netmon:</strong> La versión del software es vulnerable a Inyección de Comandos a través de una de sus funcionalidades de diagnóstico (e.g., ping). Se utiliza para obtener una reverse shell.</li>
+                <li><strong>Enumeración Interna:</strong> Se utiliza `linpeas.sh` para enumerar el sistema. Se detecta una versión del kernel de Linux muy antigua y vulnerable.</li>
+                <li><strong>Kernel Exploit:</strong> Se busca un exploit público para la versión del kernel (como Dirty COW), se compila en la máquina víctima y se ejecuta para escalar privilegios a root.</li>
+            </ol>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>Tools</h2>
+      <div class="tools">
+        <div class="tool-section">
+          <h4>Payload de Login</h4>
+          <label for="usuario">Usuario</label>
+          <input type="text" id="usuario" placeholder="admin" />
+          <label for="contrasena">Contraseña</label>
+          <input type="text" id="contrasena" placeholder="password" />
+          <button onclick="generarLoginPayload()">Generar Payload</button>
+          <pre id="loginResultado"></pre>
+        </div>
+        <div class="tool-section">
+          <h4>Payload para URL (SQLi)</h4>
+          <label for="url">URL objetivo</label>
+          <input type="text" id="url" placeholder="http://example.com/page.php?id=" />
+          <label for="tipo">Tipo de Payload</label>
+          <select id="tipo">
+            <option value="' OR '1'='1">Bypass SQL</option>
+            <option value="' UNION SELECT null--">UNION SELECT</option>
+            <option value="' AND 1=1 --">Booleano verdadero</option>
+            <option value="' AND 1=2 --">Booleano falso</option>
+            <option value="' AND SLEEP(5) --">Time-based</option>
+          </select>
+          <button onclick="generarURLPayload()">Generar URL</button>
+          <pre id="urlResultado"></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="box">
+        <h2>Automatización en n8n para detectar archivos maliciosos en tu email</h2>
+        <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0;">
+            <iframe 
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        <p style="text-align: center; margin-top: 1rem;">
+            Aquí puedes ver el tutorial completo sobre cómo configurar un workflow en n8n.
+        </p>
+    </div>
+
+    <!-- Nueva sección para la página web -->
+    <div class="box">
+        <h2>Portal de Automatización: Mis Servicios</h2>
+        <p>Además de la ciberseguridad, me especializo en crear automatizaciones personalizadas para optimizar procesos y mejorar la eficiencia. Explora mi trabajo y los servicios que ofrezco en mi sitio web.</p>
+        <div class="website-preview">
+            <iframe src="https://solidiaai.com/" title="Página de servicios de automatización SolidiaAI"></iframe>
+        </div>
+        <p style="text-align: center; margin-top: 1rem;">
+            <a href="https://solidiaai.com/" target="_blank" style="color: #00ff00;">Visitar SolidiaAI.com en una nueva pestaña</a>
+        </p>
+    </div>
+
+    <div class="box">
+      <h2>Herramienta de Práctica para Examenes</h2>
+      <div class="practice-tool">
+        <img src="assets/img/MAQUINAS.png" alt="Herramienta de Práctica" class="practice-image">
+        <!-- Texto modificado -->
+        <p>Las máquinas de práctica han sido <strong>resueltas</strong> por mi tutor, <strong>Savitar</strong>.</p>
+        <p>Practica y prepara para tus exámenes de seguridad con esta herramienta interactiva.</p>
+        <p><a href="https://github.com/Lyhack27/maquinas" target="_blank">Ver detalles completos en GitHub</a></p>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
-< ! - -   r e b u i l d   - - >  
  
