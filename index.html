@@ -22,7 +22,8 @@
     }
     .banner {
       width: 100%;
-      height: auto;
+      max-height: 350px; /* Altura máxima para el banner */
+      object-fit: cover; /* Asegura que la imagen cubra el espacio sin distorsionarse */
       display: block;
     }
     header {
@@ -34,9 +35,10 @@
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      border: 2px solid #00ff00;
-      margin: 0 auto 1rem;
+      border: 3px solid #00aaff; /* Borde cambiado a azul */
+      margin: -80px auto 1rem; /* Margen negativo para superponer sobre el banner */
       display: block;
+      position: relative; /* Necesario para el margen negativo */
     }
     header h1 {
       font-size: 2.3rem;
@@ -274,7 +276,6 @@
 <body>
   <div id="terminal"><span class="cursor"></span></div>
     <div id="mainContent">
-    <!-- Imagen de portada restaurada -->
     <img class="banner" src="assets/img/portada.jpg" alt="Portada">
     
     <header>
@@ -378,7 +379,7 @@
         <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0;">
             <iframe 
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                src="https://youtu.be/cAno9oypYcU" 
+                src="https://www.youtube.com/embed/cAno9oypYcU" 
                 title="YouTube video player" 
                 frameborder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -415,4 +416,5 @@
   </div>
 </body>
 </html>
+
  
