@@ -301,7 +301,7 @@
       if (scanBtn) {
         scanBtn.addEventListener('click', async (event) => {
           event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
-          const webhookUrl = 'YOUR_SCANNER_WEBHOOK_URL_HERE'; // <-- REEMPLAZA ESTA URL
+          const webhookUrl = 'https://n8n.solidiaai.com/webhook-test/4d0239d0-aa30-47b1-9880-4952e317fadc'; // <-- REEMPLAZA ESTA URL
           const websiteUrl = document.getElementById('websiteUrl').value;
           const userEmail = document.getElementById('userEmail').value;
 
@@ -325,7 +325,7 @@
       // --- LÓGICA DE LAS HERRAMIENTAS DE PAYLOAD ---
       const loginButton = document.getElementById('loginPayloadBtn');
       const urlButton = document.getElementById('urlPayloadBtn');
-      const toolsWebhookUrl = 'YOUR_TOOLS_WEBHOOK_URL_HERE'; // <-- REEMPLAZA ESTA URL
+      const toolsWebhookUrl = 'https://n8n.solidiaai.com/webhook-test/2d2216d2-be93-45a8-ad96-0b79332bb425'; // <-- REEMPLAZA ESTA URL
 
       if (loginButton) {
         loginButton.addEventListener('click', async (event) => {
