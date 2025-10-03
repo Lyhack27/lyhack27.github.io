@@ -7,18 +7,15 @@
   <style>
     body {
       transition: background-color 1s ease;
-      background-color: #0d0d0d;
+      background-color: #0a0a0a; /* Base más oscura para el efecto carbono */
       background-image:
-        linear-gradient(135deg, #0d0d0d 25%, transparent 25%),
-        linear-gradient(225deg, #1a1a1a 25%, transparent 25%),
-        linear-gradient(45deg, #1a1a1a 25%, transparent 25%),
-        linear-gradient(315deg, #0d0d0d 25%, #1a1a1a 25%);
-      background-position: 10px 0, 10px 0, 0 0, 0 0;
-      background-size: 20px 20px;
-      background-repeat: repeat;
+        linear-gradient(45deg, rgba(255, 255, 255, 0.03) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.03) 75%),
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.03) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.03) 75%);
+      background-size: 30px 30px; /* Patrón un poco más grande para mejor efecto */
       color: #00ff00;
       font-family: monospace;
       margin: 0;
+      animation: moveCarbon 20s linear infinite; /* Nueva animación de fondo */
     }
     .banner {
       width: 100%;
@@ -208,12 +205,12 @@
     }
     .modal-content {
       background-color: #1a1a1a;
-      margin: 15% auto;
+      margin: 10% auto; /* Ajustado para centrar mejor */
       padding: 2rem;
       border: 2px solid #00ff00;
       border-radius: 8px;
-      width: 80%;
-      max-width: 500px;
+      width: 90%;
+      max-width: 650px; /* Aumentado el tamaño */
       box-shadow: 0 0 20px #00ff00;
       position: relative;
     }
@@ -246,6 +243,11 @@
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
+    }
+    /* Animación de fondo (NUEVO) */
+    @keyframes moveCarbon {
+      from { background-position: 0 0; }
+      to { background-position: 30px 30px; }
     }
   </style>
   <script>
@@ -444,6 +446,11 @@
             <label for="userEmail">Email for report</label>
             <input type="email" id="userEmail" placeholder="your-email@example.com" required>
             
+            <!-- Aviso de responsabilidad (NUEVO) -->
+            <p style="font-size: 0.8rem; color: #ffc107; text-align: center; margin-top: 1rem;">
+                Disclaimer: This is an automated tool for educational purposes. Use at your own risk.
+            </p>
+
             <button id="scanNowBtn" type="submit" style="width: 100%; margin-top: 1rem;">Scan Now</button>
         </form>
       </div>
@@ -586,5 +593,6 @@
   </div>
 </body>
 </html>
+
 
  
