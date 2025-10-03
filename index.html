@@ -104,6 +104,12 @@
       transform: scale(1.05);
       box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
     }
+    button:disabled {
+      cursor: not-allowed;
+      background-color: #333;
+      color: #888;
+      border-color: #555;
+    }
     .machine-dropdown {
       width: 100%;
       padding: 0.8rem;
@@ -186,6 +192,53 @@
         width: 100%;
         height: 500px;
     }
+
+    /* --- ESTILOS PARA EL MODAL --- */
+    .modal {
+      display: none; /* Oculto por defecto */
+      position: fixed; /* Posición fija en la pantalla */
+      z-index: 1000; /* Asegura que esté por encima de todo */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.7); /* Fondo negro semitransparente */
+      animation: fadeIn 0.5s;
+    }
+    .modal-content {
+      background-color: #1a1a1a;
+      margin: 15% auto;
+      padding: 2rem;
+      border: 2px solid #00ff00;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 500px;
+      box-shadow: 0 0 20px #00ff00;
+      position: relative;
+    }
+    .close-button {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+    .close-button:hover,
+    .close-button:focus {
+      color: #00ff00;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    /* --- FIN DE ESTILOS PARA EL MODAL --- */
+
+
     @keyframes blink {
       50% { background: transparent; }
     }
@@ -196,8 +249,110 @@
     }
   </style>
   <script>
+    // --- FUNCIÓN GENÉRICA PARA ENVIAR DATOS A UN WEBHOOK ---
+    async function sendToWebhook(url, data, buttonElement) {
+      const originalButtonText = buttonElement.textContent;
+      buttonElement.textContent = 'Sending...';
+      buttonElement.disabled = true;
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          // Usamos alert para feedback simple. Puedes cambiarlo por un mensaje en la UI.
+          alert('Data sent successfully!'); 
+        } else {
+          throw new Error(`Webhook response was not ok: ${response.statusText}`);
+        }
+      } catch (error) {
+        console.error('Error sending data to webhook:', error);
+        alert('An error occurred. Please try again.');
+      } finally {
+        buttonElement.textContent = originalButtonText;
+        buttonElement.disabled = false;
+      }
+    }
+
+
     document.addEventListener('DOMContentLoaded', () => {
-      // Función para mostrar/ocultar detalles de la máquina
+      // --- LÓGICA DEL MODAL "AUTUMN FUNCTION" ---
+      const modal = document.getElementById("scannerModal");
+      const openBtn = document.getElementById("openScannerBtn");
+      const closeBtn = document.getElementsByClassName("close-button")[0];
+      const scanBtn = document.getElementById("scanNowBtn");
+
+      if (openBtn) openBtn.onclick = () => { modal.style.display = "block"; }
+      if (closeBtn) closeBtn.onclick = () => { modal.style.display = "none"; }
+      window.onclick = (event) => {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+      
+      // --- LÓGICA DE ENVÍO DEL MODAL A N8N ---
+      if (scanBtn) {
+        scanBtn.addEventListener('click', async (event) => {
+          event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+          const webhookUrl = 'YOUR_SCANNER_WEBHOOK_URL_HERE'; // <-- REEMPLAZA ESTA URL
+          const websiteUrl = document.getElementById('websiteUrl').value;
+          const userEmail = document.getElementById('userEmail').value;
+
+          if (!websiteUrl || !userEmail) {
+            alert('Please fill out both fields.');
+            return;
+          }
+
+          const data = {
+            website: websiteUrl,
+            email: userEmail,
+            source: 'AutumnFunctionScanner'
+          };
+          
+          await sendToWebhook(webhookUrl, data, scanBtn);
+          modal.style.display = "none"; // Cierra el modal después de enviar
+        });
+      }
+
+
+      // --- LÓGICA DE LAS HERRAMIENTAS DE PAYLOAD ---
+      const loginButton = document.getElementById('loginPayloadBtn');
+      const urlButton = document.getElementById('urlPayloadBtn');
+      const toolsWebhookUrl = 'YOUR_TOOLS_WEBHOOK_URL_HERE'; // <-- REEMPLAZA ESTA URL
+
+      if (loginButton) {
+        loginButton.addEventListener('click', async (event) => {
+          event.preventDefault();
+          const user = document.getElementById("usuario").value;
+          const pass = document.getElementById("contrasena").value;
+          const payload = `Usuario: ${user}\nContraseña: ${pass}`;
+          document.getElementById("loginResultado").textContent = payload;
+          
+          const data = { user, pass, tool: 'LoginPayloadGenerator' };
+          await sendToWebhook(toolsWebhookUrl, data, loginButton);
+        });
+      }
+
+      if (urlButton) {
+        urlButton.addEventListener('click', async (event) => {
+          event.preventDefault();
+          const url = document.getElementById("url").value;
+          const tipo = document.getElementById("tipo").value;
+          const fullUrl = url + tipo;
+          document.getElementById("urlResultado").textContent = fullUrl;
+
+          const data = { url: fullUrl, base_url: url, payload_type: tipo, tool: 'SqliPayloadGenerator' };
+          await sendToWebhook(toolsWebhookUrl, data, urlButton);
+        });
+      }
+
+
+      // --- CÓDIGO ORIGINAL DE LA PÁGINA (TERMINAL, DROPDOWN, ETC) ---
       function showMachineDetails(machineId) {
         document.querySelectorAll('.machine-details').forEach(detail => {
           detail.classList.remove('visible');
@@ -210,7 +365,6 @@
         }
       }
 
-      // Event listener para el dropdown
       const machineDropdown = document.querySelector('.machine-dropdown');
       if (machineDropdown) {
         machineDropdown.addEventListener('change', (event) => {
@@ -218,7 +372,6 @@
         });
       }
 
-      // Lógica de la terminal de arranque
       const terminal = document.getElementById("terminal");
       const cursor = terminal.querySelector(".cursor");
       const mainContent = document.getElementById("mainContent");
@@ -250,27 +403,13 @@
           setTimeout(() => {
             terminal.style.display = "none";
             mainContent.classList.add("visible");
-            document.body.style.backgroundColor = "#0d0d0d"; // Mantener fondo oscuro
+            document.body.style.backgroundColor = "#0d0d0d";
           }, 300);
         }
       }
 
       typeLine();
     });
-
-    // Funciones para generar payloads
-    function generarLoginPayload() {
-      const user = document.getElementById("usuario").value;
-      const pass = document.getElementById("contrasena").value;
-      const payload = `Usuario: ${user}\nContraseña: ${pass}`;
-      document.getElementById("loginResultado").textContent = payload;
-    }
-
-    function generarURLPayload() {
-      const url = document.getElementById("url").value;
-      const tipo = document.getElementById("tipo").value;
-      document.getElementById("urlResultado").textContent = url + tipo;
-    }
   </script>
 </head>
 <body>
@@ -283,6 +422,33 @@
       <h1>Leonardo Rincón</h1>
       <p>Cyber Security Analyst</p>
     </header>
+    
+    <!-- SECCIÓN PARA EL BOTÓN DEL SCANNER -->
+    <div class="box" style="text-align: center;">
+      <h2>Autumn Function</h2>
+      <p>Launch our advanced vulnerability scanner.</p>
+      <button id="openScannerBtn">Start Scan</button>
+    </div>
+
+    <!-- EL MODAL / LA VENTANA -->
+    <div id="scannerModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2 style="font-size: 1.5rem; text-align: center;">Autumn Function</h2>
+        <p style="text-align: center; margin-bottom: 2rem;">Scan your website and detect existing vulnerabilities.</p>
+        
+        <form>
+            <label for="websiteUrl">Website URL</label>
+            <input type="url" id="websiteUrl" placeholder="https://example.com" required>
+            
+            <label for="userEmail">Email for report</label>
+            <input type="email" id="userEmail" placeholder="your-email@example.com" required>
+            
+            <button id="scanNowBtn" type="submit" style="width: 100%; margin-top: 1rem;">Scan Now</button>
+        </form>
+      </div>
+    </div>
+
 
     <div class="box">
       <h2>Máquinas Resueltas</h2>
@@ -349,27 +515,31 @@
       <div class="tools">
         <div class="tool-section">
           <h4>Payload de Login</h4>
-          <label for="usuario">Usuario</label>
-          <input type="text" id="usuario" placeholder="admin" />
-          <label for="contrasena">Contraseña</label>
-          <input type="text" id="contrasena" placeholder="password" />
-          <button onclick="generarLoginPayload()">Generar Payload</button>
-          <pre id="loginResultado"></pre>
+          <form>
+            <label for="usuario">Usuario</label>
+            <input type="text" id="usuario" placeholder="admin" />
+            <label for="contrasena">Contraseña</label>
+            <input type="text" id="contrasena" placeholder="password" />
+            <button id="loginPayloadBtn" type="submit">Generar Payload</button>
+            <pre id="loginResultado"></pre>
+          </form>
         </div>
         <div class="tool-section">
           <h4>Payload para URL (SQLi)</h4>
-          <label for="url">URL objetivo</label>
-          <input type="text" id="url" placeholder="http://example.com/page.php?id=" />
-          <label for="tipo">Tipo de Payload</label>
-          <select id="tipo">
-            <option value="' OR '1'='1">Bypass SQL</option>
-            <option value="' UNION SELECT null--">UNION SELECT</option>
-            <option value="' AND 1=1 --">Booleano verdadero</option>
-            <option value="' AND 1=2 --">Booleano falso</option>
-            <option value="' AND SLEEP(5) --">Time-based</option>
-          </select>
-          <button onclick="generarURLPayload()">Generar URL</button>
-          <pre id="urlResultado"></pre>
+          <form>
+            <label for="url">URL objetivo</label>
+            <input type="text" id="url" placeholder="http://example.com/page.php?id=" />
+            <label for="tipo">Tipo de Payload</label>
+            <select id="tipo">
+              <option value="' OR '1'='1">Bypass SQL</option>
+              <option value="' UNION SELECT null--">UNION SELECT</option>
+              <option value="' AND 1=1 --">Booleano verdadero</option>
+              <option value="' AND 1=2 --">Booleano falso</option>
+              <option value="' AND SLEEP(5) --">Time-based</option>
+            </select>
+            <button id="urlPayloadBtn" type="submit">Generar URL</button>
+            <pre id="urlResultado"></pre>
+          </form>
         </div>
       </div>
     </div>
